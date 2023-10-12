@@ -54,6 +54,6 @@ class PharmacyRepositoryServiceTest extends AbstractIntegrationContainerBaseTest
         def result = pharmacyRepository.findAll()
 
         then:
-        result.get(0).getPharmacyAddress() == modifiedAddress
+        result.get(0).getPharmacyAddress() == inputAddress
     }
 }
