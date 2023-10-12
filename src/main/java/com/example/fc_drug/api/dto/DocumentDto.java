@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DocumentDto {
 
-    @JsonProperty("address-name")
+    @JsonProperty("address_name")
     private String addressName;
 
     @JsonProperty("y")
