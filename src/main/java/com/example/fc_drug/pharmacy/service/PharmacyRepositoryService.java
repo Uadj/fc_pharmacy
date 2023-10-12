@@ -5,8 +5,9 @@ import com.example.fc_drug.pharmacy.repository.PharmacyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -14,6 +15,11 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class PharmacyRepositoryService {
     private final PharmacyRepository pharmacyRepository;
+
+    @Transactional(readOnly = true)
+    public List<Pharmacy> findAll() {
+        return pharmacyRepository.findAll();
+    }
 
     @Transactional
     public void updateAddress(Long id, String address){
