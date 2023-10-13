@@ -2,11 +2,13 @@ package com.example.fc_drug.direction.service;
 
 import com.example.fc_drug.api.dto.DocumentDto;
 import com.example.fc_drug.direction.entity.Direction;
+import com.example.fc_drug.direction.repository.DirectionRepository;
 import com.example.fc_drug.pharmacy.PharmacyDto;
 import com.example.fc_drug.pharmacy.service.PharmacySearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -23,8 +25,14 @@ public class DirectionService {
     private static final int MAX_SEARCH_COUNT = 3;
     // 반경
     private static final double RADIUS_KM = 10.0;
+
     private final PharmacySearchService pharmacySearchService;
 
+    private final DirectionRepository directionRepository;
+    public List<Direction> saveAll(List<Direction> directionList){
+        if(CollectionUtils.isEmpty(directionList)) return Collections.emptyList();
+        return directionRepository.saveAll(directionList);
+    }
     public List<Direction> buildDirectionList(DocumentDto documentDto){
 
         if(Objects.isNull(documentDto)) return Collections.emptyList();
@@ -38,7 +46,8 @@ public class DirectionService {
                         .targetAddress(pharmacyDto.getPharmacyAddress())
                         .targetLatitude(pharmacyDto.getLatitude())
                         .targetLongitude(pharmacyDto.getLongitude())
-                        .distance(calculateDistance(documentDto.getLatitude(), documentDto.getLongitude(),
+                        .distance(
+                                calculateDistance(documentDto.getLatitude(), documentDto.getLongitude(),
                                 pharmacyDto.getLatitude(), pharmacyDto.getLongitude())
                         )
 
