@@ -6,6 +6,7 @@ import com.example.fc_drug.direction.entity.Direction;
 import com.example.fc_drug.direction.repository.DirectionRepository;
 import com.example.fc_drug.pharmacy.PharmacyDto;
 import com.example.fc_drug.pharmacy.service.PharmacySearchService;
+import io.seruco.encoding.base62.Base62;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,13 @@ public class DirectionService {
     private final DirectionRepository directionRepository;
 
     private final KakaoCategorySearchService kakaoCategorySearchService;
+
+    private final Base62Service base62Service;
+
+    public Direction findById(String encodedId){
+        Long decodedId = base62Service.decodeDirectionId(encodedId);
+        return directionRepository.findById(decodedId).orElse(null);
+    }
 
     public List<Direction> saveAll(List<Direction> directionList){
         if(CollectionUtils.isEmpty(directionList)) return Collections.emptyList();
