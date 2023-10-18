@@ -5,7 +5,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./redis
-    image: ds257873/pharmacy-recommendation-redis
+    image: heddke7/pharmacy-recommendation-redis
     ports:
       - "6380:6379"
   pharmacy-recommendation-database:
@@ -13,7 +13,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./database
-    image: ds257873/pharmacy-recommendation-database
+    image: heddke7/pharmacy-recommendation-database
     environment:
       - MARIADB_DATABASE=pharmacy-recommendation
       - MARIADB_ROOT_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
