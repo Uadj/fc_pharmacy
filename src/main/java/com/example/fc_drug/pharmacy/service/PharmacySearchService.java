@@ -16,7 +16,7 @@ public class PharmacySearchService {
 
     private final PharmacyRepositoryService pharmacyRepositoryService;
 
-    public List<PharmacyDto> searchParmacyDtoList(){
+    public List<PharmacyDto> searchPharmacyDtoList(){
 
         //redis
 

@@ -1,23 +1,32 @@
 package com.example.fc_drug.direction.service
 
 import com.example.fc_drug.api.dto.DocumentDto
+import com.example.fc_drug.api.service.KakaoCategorySearchService
 import com.example.fc_drug.direction.entity.Direction
+import com.example.fc_drug.direction.repository.DirectionRepository
 import com.example.fc_drug.pharmacy.PharmacyDto
 import com.example.fc_drug.pharmacy.service.PharmacySearchService
 import spock.lang.Specification
+import spock.lang.Subject
 
 class DirectionServiceTest extends Specification {
 
-    private  PharmacySearchService pharmacySearchService = Mock()
+    private DirectionRepository directionRepository = Mock()
+    private Base62Service base62Service = Mock()
+    private PharmacySearchService pharmacySearchService = Mock()
+    private KakaoCategorySearchService kakaoCategorySearchService = Mock()
 
-    private DirectionService directionService = new DirectionService(pharmacySearchService)
+    @Subject
+    private DirectionService directionService = new DirectionService(
+            pharmacySearchService, directionRepository,
+            base62Service, kakaoCategorySearchService)
 
     private List<PharmacyDto> pharmacyList
 
     def setup(){
         pharmacyList = new ArrayList<>()
         pharmacyList.addAll(
-                PharmacyDto.builder()
+                PharmacyDto.builder(    )
                         .id(1L)
                         .pharmacyName("돌곶이온누리약국")
                         .pharmacyAddress("주소1")
