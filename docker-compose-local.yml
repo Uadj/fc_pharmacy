@@ -7,7 +7,7 @@ services:
       context: ./redis
     image: ds257873/pharmacy-recommendation-redis
     ports:
-      - "6379:6379"
+      - "6380:6379"
   pharmacy-recommendation-database:
     container_name: pharmacy-recommendation-database
     build:

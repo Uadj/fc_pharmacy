@@ -40,6 +40,8 @@ dependencies {
     // https://mvnrepository.com/artifact/net.bytebuddy/byte-buddy
     implementation 'net.bytebuddy:byte-buddy:1.12.10'
 
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
     // test container
     // https://mvnrepository.com/artifact/org.testcontainers/mariadb
     testImplementation 'org.testcontainers:mariadb:1.19.1'
@@ -62,4 +64,13 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+// $ ./gradlew clean build -PKAKAO_REST_API_KEY={api key 값} 명령어로 전체 테스트 및 빌드하여 jar 파일 생성
+processTestResources {
+    boolean hasProperty = project.hasProperty("KAKAO_REST_API_KEY")
+    System.out.println("Set kakao rest api key: $hasProperty")
+    filesMatching('**/application.yml') {
+        expand(project.properties)
+    }
 }
