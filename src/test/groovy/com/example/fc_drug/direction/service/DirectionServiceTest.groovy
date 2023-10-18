@@ -8,12 +8,12 @@ import com.example.fc_drug.pharmacy.PharmacyDto
 import com.example.fc_drug.pharmacy.service.PharmacySearchService
 import spock.lang.Specification
 import spock.lang.Subject
-
 class DirectionServiceTest extends Specification {
 
+    private PharmacySearchService pharmacySearchService = Mock()
     private DirectionRepository directionRepository = Mock()
     private Base62Service base62Service = Mock()
-    private PharmacySearchService pharmacySearchService = Mock()
+
     private KakaoCategorySearchService kakaoCategorySearchService = Mock()
 
     @Subject
@@ -23,10 +23,11 @@ class DirectionServiceTest extends Specification {
 
     private List<PharmacyDto> pharmacyList
 
-    def setup(){
+    def setup() {
+
         pharmacyList = new ArrayList<>()
         pharmacyList.addAll(
-                PharmacyDto.builder(    )
+                PharmacyDto.builder()
                         .id(1L)
                         .pharmacyName("돌곶이온누리약국")
                         .pharmacyAddress("주소1")
@@ -42,30 +43,49 @@ class DirectionServiceTest extends Specification {
                         .build()
         )
     }
-    def "buildDirectionList - 결과 값이 거리 순으로 정렬 되는지 확인"(){
+
+    def "calculateDistance"() {
+        given:
+        def latitude1 = 37.5505
+        def longitude1 = 127.0817
+
+        def latitude2 = 37.541
+        def longitude2 = 127.0766
+        def result = "1.1"
+
+        when:
+        def distance = directionService.calculateDistance(latitude1, longitude1, latitude2, longitude2)
+
+        then:
+        String.format("%.1f", distance) == result
+    }
+
+    def "buildDirectionList - 결과 값이 거리순 정렬이 되는지 확인"() {
         given:
         def addressName = "서울 성북구 종암로10길"
         double inputLatitude = 37.5960650456809
         double inputLongitude = 127.037033003036
 
         def documentDto = DocumentDto.builder()
-            .addressName(addressName)
-            .latitude(inputLatitude)
-            .longitude(inputLongitude)
-            .build()
+                .addressName(addressName)
+                .latitude(inputLatitude)
+                .longitude(inputLongitude)
+                .build()
 
         when:
-        pharmacySearchService.searchParmacyDtoList() >> pharmacyList
+        pharmacySearchService.searchPharmacyDtoList() >> pharmacyList
 
         def results = directionService.buildDirectionList(documentDto)
-
         then:
+
         results.size() == 2
         results.get(0).targetPharmacyName == "호수온누리약국"
         results.get(1).targetPharmacyName == "돌곶이온누리약국"
+        String.format("%.1f", results.get(0).distance) == "1.6"
+        String.format("%.1f", results.get(1).distance) == "2.4"
     }
 
-    def "buildDirectionList - 정해진 반경 10 km 내에 검색이 되는지 확인"(){
+    def "buildDirectionList -  정해진 반경 10km 내에 검색이 되는지 확인"() {
         given:
         pharmacyList.add(
                 PharmacyDto.builder()
@@ -87,11 +107,11 @@ class DirectionServiceTest extends Specification {
                 .build()
 
         when:
-        pharmacySearchService.searchParmacyDtoList() >> pharmacyList
-        
+        pharmacySearchService.searchPharmacyDtoList() >> pharmacyList
+
         def results = directionService.buildDirectionList(documentDto)
-        
         then:
+
         results.size() == 2
         results.get(0).targetPharmacyName == "호수온누리약국"
         results.get(1).targetPharmacyName == "돌곶이온누리약국"

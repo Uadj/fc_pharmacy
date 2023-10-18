@@ -10,15 +10,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-
 class DirectionControllerTest extends Specification {
 
     private MockMvc mockMvc
-    private DirectionService directionService
+    private DirectionService directionService = Mock()
 
-    def setup(){
+    def setup() {
         mockMvc = MockMvcBuilders.standaloneSetup(new DirectionController(directionService))
-            .build()
+                .build()
     }
 
     def "GET /dir/{encodedId}"() {
