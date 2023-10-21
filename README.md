@@ -1,4 +1,4 @@
-# fastcampus 약국 찾기 서비스 강의 클론
+# 카카오 지도 API 사용 예제
 
 ## 실행 RUN
 
@@ -58,3 +58,9 @@ KAKAO_REST_API_KEY =
 
 ![image](https://github.com/Uadj/fc_pharmacy/assets/30551889/f6ecd1f1-32bd-465f-b9f7-9140c960ee4f)
 
+
+## 출저
+
+* Fastcampus
+
+* https://github.com/WonYong-Jang/Pharmacy-Recommendation
