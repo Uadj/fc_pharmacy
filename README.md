@@ -20,7 +20,7 @@ docker pull heddke7/pharmacy-recommendation-app
 docker run -d -p 3306:3306 --name pharmacy-recommendation-database -e MARIADB_DATABASE=board -e MARIADB_ROOT_PASSWORD=1234 heddke7/pharmacy-recommendation-database
 ```
 ```
-docker run -d -p 6379:6379 --name pharmacy-recommendation-database heddke7/pharmacy-recommendation-redis
+docker run -d -p 6379:6379 --name pharmacy-recommendation-redis heddke7/pharmacy-recommendation-redis
 ```
 ```
 docker run -d -p 80:8080 --name pharmacy-recommendation-app -e SPRING_DATASOURCE_USERNAME=root -e SPRING_DATASOURCE_PASSWORD=1234 -e SPRING_PROFILES_ACTIVE=prod -e KAKAO_REST_API_KEY=본인Key heddke7/pharmacy-recommendation-app
